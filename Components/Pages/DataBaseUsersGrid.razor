@@ -1,0 +1,252 @@
+﻿@page "/UserGrid"
+@inject IConfiguration _config
+
+@rendermode InteractiveServer
+
+<PageTitle>Таблица пользователей</PageTitle>
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor
+@using Grid_Dapper.Data;
+@using System.Collections;
+@using System;
+@using System.Net;
+@using System.Net.Mail;
+@inject IJSRuntime JSRuntime
+
+<SfGrid ID="UsersGrid" @ref="UsersGrid" TValue="User" AllowSorting="true" AllowFiltering="false" AllowGrouping="false" AllowPaging="true" AllowExcelExport="true" Toolbar="@(new List<string>() { "Add","Edit", "Delete", "Update", "Cancel", "Search", "ExcelExport"})">
+    <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+    <GridEditSettings AllowEditing="true" AllowDeleting="true" AllowAdding="true" Mode="@EditMode.Normal"></GridEditSettings>
+    <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="User"></GridEvents>
+    <GridColumns>
+        <GridColumn Field=@nameof(User.Id) HeaderText="Id" IsIdentity IsPrimaryKey="true" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(User.Name) HeaderText="Имя" ValidationRules="@(new ValidationRules{ Required= true, MinLength = 3 })"></GridColumn>
+        <GridColumn Field=@nameof(User.Email) HeaderText="Email"></GridColumn>
+        <GridColumn Field=@nameof(User.Password) HeaderText="Пароль"></GridColumn>
+        <GridColumn Field=@nameof(User.IsAdmin) HeaderText="Админ?"></GridColumn>
+        @* <GridForeignColumn Field=@nameof(Player.Servers_Id) HeaderText="Сервер" ForeignKeyValue="Id" ForeignDataSource="@Servers">
+            <EditTemplate>
+                <SfComboBox TValue="int?" TItem="Server" @bind-Value="@((context as Player).Servers_Id)" DataSource="Servers">
+                    <ComboBoxFieldSettings Value="Server_Id" Text="Server Id"></ComboBoxFieldSettings>
+                </SfComboBox>
+            </EditTemplate>
+        </GridForeignColumn> *@
+    </GridColumns>
+</SfGrid>
+
+
+@code {
+
+    // public IEnumerable<Server> Servers;
+    // public ServerData ServerService = new ServerData();
+    // protected override void OnInitialized()
+    // {
+    //     base.OnInitialized();
+    //     Servers = ServerService.GetOrders();
+    // }
+
+    SfGrid<User> UsersGrid;
+    private Lazy<IJSObjectReference> JSModule = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+        Console.WriteLine(JSModule.Value);
+    }
+
+    public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        Console.WriteLine("exp1");
+        try
+        {
+            Console.WriteLine(args.Item.Id);
+            if (args.Item.Id == "UsersGrid_excelexport") //Id is combination of Grid's ID and itemname
+            {
+                //await this.PlayersGrid.ExcelExport();
+                Console.WriteLine("exp2");
+                #region ExcelProperties
+                ExcelExportProperties ExcelProperties = new ExcelExportProperties();
+
+                ExcelHeader header = new ExcelHeader();
+                header.HeaderRows = 2;
+                List<ExcelCell> cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= "Отчёт из базы данных пользователей", Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman"} }
+
+                };
+                List<ExcelRow> HeaderContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+                header.Rows = HeaderContent;
+
+                ExcelFooter footer = new ExcelFooter();
+                footer.FooterRows = 2;
+                cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= ("Дата и время: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")), Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman" }}
+                };
+                List<ExcelRow> FooterContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+                footer.Rows = FooterContent;
+
+                ExcelProperties.Header = header;
+                ExcelProperties.Footer = footer;
+                ExcelTheme Theme = new ExcelTheme();
+                ExcelStyle ThemeStyle = new ExcelStyle()
+                    {
+                        FontName = "Times New Roman",
+                        FontSize = 12
+                    };
+                ExcelStyle HeaderThemeStyle = new ExcelStyle()
+                    {
+                        FontName = "Times New Roman",
+                        FontSize = 14,
+                        Bold = true,
+                        BackColor = "#bfbfbf"
+                    };
+                Theme.Header = HeaderThemeStyle;
+                Theme.Record = ThemeStyle;
+                Theme.Caption = ThemeStyle;
+                ExcelProperties.Theme = Theme;
+                #endregion
+                MemoryStream streamDoc = await UsersGrid.ExportToExcelAsync(asMemoryStream: true, ExcelProperties);
+
+                await JSModule.Value.InvokeVoidAsync("saveAsFile", new object[] { "Users.xlsx", Convert.ToBase64String(streamDoc.ToArray()), true });
+
+                Console.WriteLine("exp3");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
+    }
+
+    public class CustomAdaptor : DataAdaptor
+    {
+        public UserData UserService = new UserData();
+
+        public override async Task<object> ReadAsync(DataManagerRequest DataManagerRequest, string Key = null)
+        {
+            Console.WriteLine(1);
+            IEnumerable<User> DataSource = await UserService.GetOrdersAsync();
+            Console.WriteLine(2);
+            // Handling Searching in CustomAdaptor.
+            if (DataManagerRequest.Search != null && DataManagerRequest.Search.Count > 0)
+            {
+                // Searching
+                DataSource = DataOperations.PerformSearching(DataSource, DataManagerRequest.Search);
+            }
+            // Handling Filtering in CustomAdaptor.
+            if (DataManagerRequest.Where != null && DataManagerRequest.Where.Count > 0)
+            {
+                // Filtering
+                DataSource = DataOperations.PerformFiltering(DataSource, DataManagerRequest.Where, DataManagerRequest.Where[0].Operator);
+            }
+            // Handling Sorting in CustomAdaptor.
+            if (DataManagerRequest.Sorted != null && DataManagerRequest.Sorted.Count > 0)
+            {
+                // Sorting
+                DataSource = DataOperations.PerformSorting(DataSource, DataManagerRequest.Sorted);
+            }
+            int count = DataSource.Cast<User>().Count();
+            // Handling Aggregates in CustomAdaptor.
+            IDictionary<string, object> Aggregates = null;
+            if (DataManagerRequest.Aggregates != null) // Aggregation
+            {
+                Aggregates = DataUtil.PerformAggregation(DataSource, DataManagerRequest.Aggregates);
+            }
+            // Handling Paging in CustomAdaptor. For example, Skip is 0 and Take is equal to page size for first page.
+            if (DataManagerRequest.Skip != 0)
+            {
+                //Paging
+                DataSource = DataOperations.PerformSkip(DataSource, DataManagerRequest.Skip);
+            }
+            if (DataManagerRequest.Take != 0)
+            {
+                DataSource = DataOperations.PerformTake(DataSource, DataManagerRequest.Take);
+            }
+            // Handling Grouping in CustomAdaptor.
+            DataResult DataObject = new DataResult();
+            if (DataManagerRequest.Group != null)
+            {
+                IEnumerable ResultData = DataSource.ToList();
+                // Grouping
+                foreach (var group in DataManagerRequest.Group)
+                {
+                    ResultData = DataUtil.Group<User>(ResultData, group, DataManagerRequest.Aggregates, 0, DataManagerRequest.GroupByFormatter);
+                }
+                DataObject.Result = ResultData;
+                DataObject.Count = count;
+                //If both Grouping and Aggregate is enabled
+                if (DataManagerRequest.Aggregates != null)
+                {
+                    DataObject.Aggregates = Aggregates;
+                }
+                //Здесь RequiresCount передается со стороны элемента управления, когда требуется выборка данных по требованию, тогда RequiresCount устанавливается как true на стороне компонента.
+                //В приведенном выше случае мы используем пейджинг, поэтому данные загружаются по требованию каждый раз, когда нажимается следующая страница на стороне Blazor DataGrid.
+                return DataManagerRequest.RequiresCounts ? DataObject : (object)ResultData;
+            }
+            //Здесь RequiresCount передается со стороны элемента управления, когда требуется выборка данных по требованию, тогда RequiresCount устанавливается как true на стороне компонента.
+            //В приведенном выше случае мы используем пейджинг, поэтому данные загружаются по требованию каждый раз, когда нажимается следующая страница на стороне Blazor DataGrid.
+            return DataManagerRequest.RequiresCounts ? new DataResult() { Result = DataSource, Count = count, Aggregates = Aggregates } : (object)DataSource;
+        }
+
+        public override async Task<object> InsertAsync(DataManager DataManager, object Value, string Key)
+        {
+            // Given that the Value property consists of newly inserted record details. It can be used to insert the records into database by calling the predefined logic.
+            await UserService.AddOrderAsync(Value as User);
+            return Value;
+        }
+
+        public override async Task<object> UpdateAsync(DataManager DataManager, object Value, string KeyField, string Key)
+        {
+            // Given that the Value property consists of modified record details. It can be used to update the changes into database by calling the predefined logic.
+            Console.WriteLine("Update" + Value);
+            await UserService.UpdateOrderAsync(Value as User);
+            Console.WriteLine("Updated" + Value);
+            return Value;
+        }
+
+        public override async Task<object> RemoveAsync(DataManager DataManager, object Value, string KeyField, string Key)
+        {
+            // Given that the key column is identified nullable interger type in the DataGrid, the primaryColumnValue can be utilized from Value property directly.
+            Console.WriteLine("Remove" + Value);
+            await UserService.RemoveOrderAsync(Value as int?);
+            Console.WriteLine("Removed" + Value);
+            return Value;
+        }
+
+        public override async Task<object> BatchUpdateAsync(DataManager DataManager, object Changed, object Added, object Deleted, string KeyField, string Key, int? DropIndex)
+        {
+            if (Changed != null)
+            {
+                foreach (var record in (IEnumerable<User>)Changed)
+                {
+                    await UserService.UpdateOrderAsync(record as User);
+                }
+            }
+            if (Added != null)
+            {
+                foreach (var record in (IEnumerable<User>)Added)
+                {
+                    await UserService.AddOrderAsync(record as User);
+                }
+            }
+            if (Deleted != null)
+            {
+                foreach (var record in (IEnumerable<User>)Deleted)
+                {
+                    await UserService.RemoveOrderAsync((record as User).Id);
+                }
+            }
+            return Key;
+        }
+    }
+}

@@ -1,0 +1,102 @@
+﻿@page "/registration"
+@rendermode InteractiveServer
+
+<PageTitle>Регистрация</PageTitle>
+
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor
+@using Grid_Dapper.Data;
+@using BlazorApp1.Components.Layout;
+@using System;
+@using System.Net;
+@using System.Net.Mail;
+@inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
+@* @inject Services.IEmailService EmailService *@
+
+<h3>Регистрация</h3>
+
+
+<div><input type="text" @bind="name" placeholder="Введите имя" required/></div>
+<div><input type="text" @bind="email" placeholder="Введите электронную почту" required /></div>
+<div><input type="text" @bind="password" placeholder="Введите пароль" required /></div>
+<div><input type="text" @bind="repeatPassword" placeholder="Повторите пароль" required /></div>
+<div><button @onclick="Submit">Подтвердить</button></div>
+<div style="color: red">@errorMessage</div>
+
+
+@code {
+	public UserData userData = new UserData();
+	private string name = "";
+	private string email = "";
+	private string password = "";
+	private string repeatPassword = "";
+	private string errorMessage;
+	private Lazy<IJSObjectReference> JSModule = new();
+	[CascadingParameter]
+	public MainLayout mainLayout { get; set; }
+
+	private async void Submit()
+	{
+		Console.WriteLine("1");
+		if (name.Length > 3 && email.Length > 5 && password == repeatPassword && password.Length > 5)
+		{
+			Console.WriteLine("2");
+			List<User> DataSource = await userData.GetUserByNameAsync(name);
+			if (DataSource.Count > 0)
+			{
+				errorMessage = "Это имя уже занято";
+			}
+			else 
+			{
+				DataSource = await userData.GetUserByEmailAsync(email);
+				if (DataSource.Count > 0)
+				{
+					errorMessage = "Эта электронная почта уже занята";
+				}
+				else
+				{
+					JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+					Console.WriteLine("3");
+					User user = new User();
+					user.Name = name;
+					user.Email = email;
+					user.Password = password;
+					user.IsAdmin = 0;
+					await userData.AddOrderAsync(user);
+					DataSource = await userData.GetUserByNameAsync(name);
+					await JSModule.Value.InvokeVoidAsync("writeCookie", "UserId", DataSource[0].Id.ToString(), 30);
+					mainLayout.IsUserNeedRefreshing = true;
+					StateHasChanged();
+
+					MailAddress From = new MailAddress("lebed.Daniil2005@gmail.com");
+					MailAddress To = new MailAddress(email);
+					MailMessage message = new MailMessage(From, To);
+					message.Subject = "На вашу электронную почту был создан аккаунт на сайте Личный кабинет";
+					message.IsBodyHtml = true;
+					message.Body = "<p>Имя пользователя: " + name + "</p>" +
+						"<p>Email пользователя: " + email + "</p>" +
+						"<p>Id пользователя: " + DataSource[0].Id + "</p>";
+					SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+					smtp.EnableSsl = true;
+					smtp.UseDefaultCredentials = false;
+					smtp.Credentials = new NetworkCredential("lebed.Daniil2005@gmail.com", "hsvirmyabcqqrmbu");
+					smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+					smtp.Send(message);
+
+					// await EmailService.SendEmailAsync("to." + email, "На вашу электронную почту был создан аккаунт", 
+					// 	"<p>Имя пользователя: " + name + "</p>" +
+					// 	"<p>Email пользователя: " + email + "</p>" +
+					// 	"<p>Id пользователя: " + user.Id + "</p>");
+					NavManager.NavigateTo("/");
+					
+				}
+			}
+		}
+		else
+		{
+			errorMessage = "неверный ввод";
+		}
+		
+	}
+}

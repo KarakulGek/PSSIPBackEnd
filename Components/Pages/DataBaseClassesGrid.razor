@@ -1,0 +1,280 @@
+﻿@page "/ClassGrid"
+@inject IConfiguration _config
+
+@rendermode InteractiveServer
+
+<PageTitle>Таблица классов</PageTitle>
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor
+@using Grid_Dapper.Data;
+@using System.Collections;
+@using BlazorApp1.Components.Layout;
+@inject IJSRuntime JSRuntime
+
+<SfGrid ID="ClassesGrid" @ref="ClassesGrid" TValue="Class" AllowSorting="true" AllowFiltering="false" AllowGrouping="false" AllowPaging="true" AllowExcelExport="true" 
+Toolbar="@ToolbarList">
+    <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+    <GridEditSettings AllowEditing="@mainLayout.IsAdmin" AllowDeleting="@mainLayout.IsAdmin" AllowAdding="@mainLayout.IsAdmin" Mode="@EditMode.Normal"></GridEditSettings>
+    <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="Class"></GridEvents>
+    <GridColumns>
+        <GridColumn Field=@nameof(Class.Id) HeaderText="Id" IsIdentity IsPrimaryKey="true" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(Class.Name) HeaderText="Название" ValidationRules="@(new ValidationRules{ Required= true, MinLength = 3 })"></GridColumn>
+        <GridColumn Field=@nameof(Class.Weapon) HeaderText="Оружие"></GridColumn>
+        <GridColumn Field=@nameof(Class.Count) HeaderText="Количество персонажей с этим классом"></GridColumn>
+        @* <GridForeignColumn Field=@nameof(Class.Servers_Id) HeaderText="Сервер" ForeignKeyValue="Id" ForeignDataSource="@Servers">
+            <EditTemplate>
+                <SfComboBox TValue="int?" TItem="Server" @bind-Value="@((context as Class).Servers_Id)" DataSource="Servers">
+                    <ComboBoxFieldSettings Value="Server_Id" Text="Server Id"></ComboBoxFieldSettings>
+                </SfComboBox>
+            </EditTemplate>
+        </GridForeignColumn> *@
+    </GridColumns>
+</SfGrid>
+
+@code {
+
+    // public IEnumerable<Server> Servers;
+    // public ServerData ServerService = new ServerData();
+    // protected override void OnInitialized()
+    // {
+    //     base.OnInitialized();
+    //     Servers = ServerService.GetOrders();
+    // }
+
+    SfGrid<Class> ClassesGrid;
+    private Lazy<IJSObjectReference> JSModule = new();
+    private List<string> ToolbarList = new List<string>();
+    [CascadingParameter]
+    public MainLayout mainLayout { get; set; }
+
+    // public override Task SetParametersAsync(ParameterView parameters)
+    // {
+    //     if (parameters.TryGetValue<bool>(nameof(mainLayout.IsAdmin), out var value))
+    //     {
+    //         if (value)
+    //         {
+    //             ToolbarList = new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel", "Search", "ExcelExport" };
+    //         }
+    //         else
+    //         {
+    //             ToolbarList = new List<string>() { "Search", "ExcelExport" };
+    //         }
+    //     }
+    //     return base.SetParametersAsync(parameters);
+    //     StateHasChanged();
+    // }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (mainLayout.IsAdmin)
+        {
+            ToolbarList = new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel", "Search", "ExcelExport" };
+        }
+        else
+        {
+            ToolbarList = new List<string>() { "Search", "ExcelExport" };
+        }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+        Console.WriteLine(JSModule.Value);
+    }
+
+    public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        Console.WriteLine("exp1");
+        try
+        {
+            Console.WriteLine(args.Item.Id);
+            if (args.Item.Id == "ClassesGrid_excelexport") //Id is combination of Grid's ID and itemname
+            {
+                //await this.PlayersGrid.ExcelExport();
+                Console.WriteLine("exp2");
+
+                ExcelExportProperties ExcelProperties = new ExcelExportProperties();
+
+                ExcelHeader header = new ExcelHeader();
+                header.HeaderRows = 2;
+                List<ExcelCell> cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= "Отчёт из базы данных классов", Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman"} }
+
+                };
+                List<ExcelRow> HeaderContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+                header.Rows = HeaderContent;
+
+                ExcelFooter footer = new ExcelFooter();
+                footer.FooterRows = 2;
+                cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= ("Дата и время: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")), Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman" }}
+                };
+                List<ExcelRow> FooterContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+                footer.Rows = FooterContent;
+
+                ExcelProperties.Header = header;
+                ExcelProperties.Footer = footer;
+                ExcelTheme Theme = new ExcelTheme();
+                ExcelStyle ThemeStyle = new ExcelStyle()
+                    {
+                        FontName = "Times New Roman",
+                        FontSize = 12
+                    };
+                ExcelStyle HeaderThemeStyle = new ExcelStyle()
+                    {
+                        FontName = "Times New Roman",
+                        FontSize = 14,
+                        Bold = true,
+                        BackColor = "#bfbfbf"
+                    };
+                Theme.Header = HeaderThemeStyle;
+                Theme.Record = ThemeStyle;
+                Theme.Caption = ThemeStyle;
+                ExcelProperties.Theme = Theme;
+                MemoryStream streamDoc = await ClassesGrid.ExportToExcelAsync(asMemoryStream: true, ExcelProperties);
+
+                await JSModule.Value.InvokeVoidAsync("saveAsFile", new object[] { "Classes.xlsx", Convert.ToBase64String(streamDoc.ToArray()), true });
+
+                Console.WriteLine("exp3");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
+    }
+
+    public class CustomAdaptor : DataAdaptor
+    {
+        public ClassData ClassService = new ClassData();
+
+        public override async Task<object> ReadAsync(DataManagerRequest DataManagerRequest, string Key = null)
+        {
+            Console.WriteLine(1);
+            IEnumerable<Class> DataSource = await ClassService.GetOrdersAsync();
+            Console.WriteLine(2);
+            foreach (Class _class in DataSource) Console.WriteLine(_class.Count);
+            // Handling Searching in CustomAdaptor.
+            if (DataManagerRequest.Search != null && DataManagerRequest.Search.Count > 0)
+            {
+                // Searching
+                DataSource = DataOperations.PerformSearching(DataSource, DataManagerRequest.Search);
+            }
+            // Handling Filtering in CustomAdaptor.
+            if (DataManagerRequest.Where != null && DataManagerRequest.Where.Count > 0)
+            {
+                // Filtering
+                DataSource = DataOperations.PerformFiltering(DataSource, DataManagerRequest.Where, DataManagerRequest.Where[0].Operator);
+            }
+            // Handling Sorting in CustomAdaptor.
+            if (DataManagerRequest.Sorted != null && DataManagerRequest.Sorted.Count > 0)
+            {
+                // Sorting
+                DataSource = DataOperations.PerformSorting(DataSource, DataManagerRequest.Sorted);
+            }
+            int count = DataSource.Cast<Class>().Count();
+            // Handling Aggregates in CustomAdaptor.
+            IDictionary<string, object> Aggregates = null;
+            if (DataManagerRequest.Aggregates != null) // Aggregation
+            {
+                Aggregates = DataUtil.PerformAggregation(DataSource, DataManagerRequest.Aggregates);
+            }
+            // Handling Paging in CustomAdaptor. For example, Skip is 0 and Take is equal to page size for first page.
+            if (DataManagerRequest.Skip != 0)
+            {
+                //Paging
+                DataSource = DataOperations.PerformSkip(DataSource, DataManagerRequest.Skip);
+            }
+            if (DataManagerRequest.Take != 0)
+            {
+                DataSource = DataOperations.PerformTake(DataSource, DataManagerRequest.Take);
+            }
+            // Handling Grouping in CustomAdaptor.
+            DataResult DataObject = new DataResult();
+            if (DataManagerRequest.Group != null)
+            {
+                IEnumerable ResultData = DataSource.ToList();
+                // Grouping
+                foreach (var group in DataManagerRequest.Group)
+                {
+                    ResultData = DataUtil.Group<Class>(ResultData, group, DataManagerRequest.Aggregates, 0, DataManagerRequest.GroupByFormatter);
+                }
+                DataObject.Result = ResultData;
+                DataObject.Count = count;
+                //If both Grouping and Aggregate is enabled
+                if (DataManagerRequest.Aggregates != null)
+                {
+                    DataObject.Aggregates = Aggregates;
+                }
+                //Здесь RequiresCount передается со стороны элемента управления, когда требуется выборка данных по требованию, тогда RequiresCount устанавливается как true на стороне компонента.
+                //В приведенном выше случае мы используем пейджинг, поэтому данные загружаются по требованию каждый раз, когда нажимается следующая страница на стороне Blazor DataGrid.
+                return DataManagerRequest.RequiresCounts ? DataObject : (object)ResultData;
+            }
+            //Здесь RequiresCount передается со стороны элемента управления, когда требуется выборка данных по требованию, тогда RequiresCount устанавливается как true на стороне компонента.
+            //В приведенном выше случае мы используем пейджинг, поэтому данные загружаются по требованию каждый раз, когда нажимается следующая страница на стороне Blazor DataGrid.
+            return DataManagerRequest.RequiresCounts ? new DataResult() { Result = DataSource, Count = count, Aggregates = Aggregates } : (object)DataSource;
+        }
+
+        public override async Task<object> InsertAsync(DataManager DataManager, object Value, string Key)
+        {
+            // Given that the Value property consists of newly inserted record details. It can be used to insert the records into database by calling the predefined logic.
+            await ClassService.AddOrderAsync(Value as Class);
+            return Value;
+        }
+
+        public override async Task<object> UpdateAsync(DataManager DataManager, object Value, string KeyField, string Key)
+        {
+            // Given that the Value property consists of modified record details. It can be used to update the changes into database by calling the predefined logic.
+            Console.WriteLine("Update" + Value);
+            await ClassService.UpdateOrderAsync(Value as Class);
+            Console.WriteLine("Updated" + Value);
+            return Value;
+        }
+
+        public override async Task<object> RemoveAsync(DataManager DataManager, object Value, string KeyField, string Key)
+        {
+            // Given that the key column is identified nullable interger type in the DataGrid, the primaryColumnValue can be utilized from Value property directly.
+            Console.WriteLine("Remove" + Value);
+            await ClassService.RemoveOrderAsync(Value as int?);
+            Console.WriteLine("Removed" + Value);
+            return Value;
+        }
+
+        public override async Task<object> BatchUpdateAsync(DataManager DataManager, object Changed, object Added, object Deleted, string KeyField, string Key, int? DropIndex)
+        {
+            if (Changed != null)
+            {
+                foreach (var record in (IEnumerable<Class>)Changed)
+                {
+                    await ClassService.UpdateOrderAsync(record as Class);
+                }
+            }
+            if (Added != null)
+            {
+                foreach (var record in (IEnumerable<Class>)Added)
+                {
+                    await ClassService.AddOrderAsync(record as Class);
+                }
+            }
+            if (Deleted != null)
+            {
+                foreach (var record in (IEnumerable<Class>)Deleted)
+                {
+                    await ClassService.RemoveOrderAsync((record as Class).Id);
+                }
+            }
+            return Key;
+        }
+    }
+}

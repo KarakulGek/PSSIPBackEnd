@@ -1,0 +1,66 @@
+﻿@page "/authorization"
+@rendermode InteractiveServer
+
+<PageTitle>Авторизация</PageTitle>
+
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor
+@using Grid_Dapper.Data;
+@using BlazorApp1.Components.Layout;
+@inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
+
+<h3>Авторизация</h3>
+
+<div><input type="text" @bind="input" placeholder="Введите имя или электронную почту" /></div>
+<div><input type="text" @bind="password" placeholder="Введите пароль" /></div>
+<div><button @onclick="Submit">Подтвердить</button></div>
+<div style="color: red">@errorMessage</div>
+
+@code {
+	[CascadingParameter]
+	public MainLayout mainLayout { get; set; }
+	public UserData userData = new UserData();
+	private string input = "";
+	private string password = "";
+	private string errorMessage;
+	private Lazy<IJSObjectReference> JSModule = new();
+
+	private async void Submit()
+	{
+		Console.WriteLine("1");
+		List<User> DataSource = await userData.GetUserByNameAsync(input);
+		if (DataSource.Count > 0)
+		{
+			if (password == DataSource[0].Password)
+			{
+				JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+				await JSModule.Value.InvokeVoidAsync("writeCookie", "UserId", DataSource[0].Id.ToString(), 30);
+				StateHasChanged();
+				NavManager.NavigateTo("/");
+				mainLayout.IsUserNeedRefreshing = true;
+				
+			}
+			else errorMessage = "Неверный пароль";
+		}
+		else
+		{
+			DataSource = await userData.GetUserByEmailAsync(input);
+			if (DataSource.Count > 0)
+			{
+				if (password == DataSource[0].Password)
+				{
+					JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+					await JSModule.Value.InvokeVoidAsync("writeCookie", "UserId", DataSource[0].Id.ToString(), 30);
+					mainLayout.IsUserNeedRefreshing = true;
+					StateHasChanged();
+					NavManager.NavigateTo("/");
+					
+				}
+				else errorMessage = "Неверный пароль";
+			}
+			else errorMessage = "Пользователь с таким именем или электронной почтой не найден";
+		}
+		
+	}
+}

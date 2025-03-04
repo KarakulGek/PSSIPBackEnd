@@ -1,0 +1,113 @@
+﻿@page "/PSSIP22"
+
+
+@rendermode InteractiveServer
+
+<PageTitle>ЛР 22</PageTitle>
+
+<h3>ПССИП ЛР 22</h3>
+
+<div> 
+
+    @* <h2>Календарь</h2> *@
+    @* Год: <br> *@
+    @* <input type="number" @bind="Year" placeholder="Year" /> <br> *@
+    @* Месяц: <br> *@
+    @* <input type="number" @bind="Month" placeholder="Month" /> <br> *@
+    @* <button @onclick="ShowCalendar">Клик</button> *@
+    @* <div> *@
+    @*     @if (CalendarOutput != null) *@
+    @*     { *@
+    @*                 <pre>@CalendarOutput</pre> *@
+    @*     } *@
+    @* </div> *@
+
+    <h2>Дата</h2>
+    <div>@DateTime.Now.ToString("yyyy-MM-dd")</div>
+    <div>@DateTime.Now.ToString("dd.MM.yyyy")</div>
+    <div>@DateTime.Now.ToString("dd.MM.yy")</div>
+    <div>@DateTime.Now.ToString("HH:mm:ss")</div>
+
+    <h2>Цикл for</h2>
+    @for (int i = 0; i < @VariantNumber + 5; i++)
+    {
+        <p>Лебедь Даниил</p>
+    }
+
+    <h2>Массив</h2>
+    <button @onclick="ProcessArray">Клик</button>
+    <div>
+        <p>Оригинальный массив: @string.Join(", ", OriginalArray)</p>
+        <p>Модифицированный массив: @string.Join(", ", ModifiedArray)</p>
+    </div>
+
+    <h2>Операции со строками</h2>
+    <div>
+        <p>S1: "@S1"</p>
+        <p>S2: "@S2"</p>
+        <p>Длина S2: @S2.Length</p>
+        <p>S1 содержит "Гродно"? @ContainsGrodno</p>
+        <p>Символ на позиции @VariantNumber: '@NthChar'</p>
+        <p>ASCII Code: @AsciiCode</p>
+    </div>
+
+    <h2>Пользовательская функция</h2>
+    Введите х: <br>
+    <input type="number" @bind="InputX" placeholder="Введите х" />
+    <button @onclick="CalculateY">Клик</button>
+    <div>
+        <p>Результат: @Result</p>
+    </div>
+
+</div>
+
+@code {
+
+    // массивы
+    private int[] OriginalArray = new int[] { };
+    private int[] ModifiedArray = new int[] { };
+    private int NegativeProduct;
+
+    private void ProcessArray()
+    {
+        OriginalArray = new int[5];
+        Random random = new Random();
+        for (int i = 0; i < OriginalArray.Length; i++)
+        {
+            OriginalArray[i] = random.Next(-10, 10);
+        }
+
+        ModifiedArray = (int[])OriginalArray.Clone();
+        int min = 999;
+        int minNumb = -1;
+        for (int i = 0; i < OriginalArray.Length; i++)
+        {
+            if (OriginalArray[i] < min){
+                min = OriginalArray[i];
+                minNumb = i;
+            }
+        }
+        int buffer = OriginalArray[OriginalArray.Length - 1];
+        OriginalArray[OriginalArray.Length - 1] = min;
+        OriginalArray[minNumb] = buffer;
+    }
+
+    // строки
+    private string S1 = "Я люблю Беларусь";
+    private string S2 = "Я учусь в Политехническом колледже";
+    private int VariantNumber = 13;
+    private bool ContainsGrodno => S1.Contains("Гродно");
+    private char NthChar => S2[VariantNumber - 1];
+    private int AsciiCode => (int)NthChar;
+
+    // функция
+    private double InputX;
+    private string Result;
+
+    private void CalculateY()
+    {
+        if (InputX == 0) Result = "деление на ноль.";
+        else Result = $"{(2 * InputX - 7) / (InputX * 5)}";
+    }
+}
+

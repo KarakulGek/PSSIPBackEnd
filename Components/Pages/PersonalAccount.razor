@@ -1,0 +1,375 @@
+﻿@page "/personalAccount"
+@rendermode InteractiveServer
+
+<PageTitle>Личный кабинет</PageTitle>
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor
+@using Grid_Dapper.Data;
+@using System.Collections;
+@using BlazorApp1.Components.Layout;
+@using System;
+@using System.Net;
+@using System.Net.Mail;
+@inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
+
+
+<h3>Личный кабинет</h3>
+
+<p>Имя пользователя: @name</p>
+<p>Email пользователя: @email</p>
+<p>Пользователь является администратором: @(isAdmin == 1? "Да":"Нет")</p>
+<p>Id пользователя: @id</p>
+<p></p>
+@if (CharacterDataSource.Count > 0)
+{
+    <p>Количество ваших персонажей: @CharacterDataSource.Count</p>
+    <p>Сумма наигранных часов: @HoursSum</p>
+    <p>Сумма очков: @ScoreSum</p>
+    <p>Персонаж с самым большим количеством очков: @MaxScoreCharacter.Name</p>
+    <p>Персонаж с самым большим количеством наигранных часов: @MaxHoursCharacter.Name</p>
+}
+<div><button @onclick="MailGrid">Отправить на почту</button></div>
+<p></p>
+
+<SfGrid ID="CharactersGrid" @ref="CharactersGrid" TValue="Character" AllowSorting="true" AllowFiltering="false" AllowGrouping="false" AllowPaging="true" AllowExcelExport="true" 
+Toolbar="@(ToolbarList = new List<string>() { "Search", "ExcelExport" })">
+    <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+    <GridEditSettings AllowEditing="false" AllowDeleting="false" AllowAdding="false" Mode="@EditMode.Normal"></GridEditSettings>
+    <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="Character"></GridEvents>
+    <GridColumns>
+        <GridColumn Field=@nameof(Character.Id) HeaderText="Id" IsIdentity IsPrimaryKey="true" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(Character.Name) HeaderText="Имя" ValidationRules="@(new ValidationRules{ Required= true, MinLength = 3 })"></GridColumn>
+        <GridColumn Field=@nameof(Character.Health) HeaderText="Здоровье"></GridColumn>
+        <GridColumn Field=@nameof(Character.Score) HeaderText="Очки"></GridColumn>
+        <GridColumn Field=@nameof(Character.HoursPlayed) HeaderText="Часов наигранно"></GridColumn>
+        <GridColumn Field=@nameof(Character.Classes_Id) HeaderText="Класс"></GridColumn>
+        <GridColumn Field=@nameof(Character.Servers_Id) HeaderText="Сервер"></GridColumn>
+    </GridColumns>
+</SfGrid>
+
+@code {
+    [CascadingParameter]
+    public MainLayout mainLayout { get; set; }
+    private Lazy<IJSObjectReference> JSModule = new();
+    public UserData userData = new UserData();
+    public CharacterData characterData = new CharacterData();
+    public List<Character> CharacterDataSource = new List<Character>();
+    public Character MaxScoreCharacter = new Character();
+    public Character MaxHoursCharacter = new Character();
+    public int ScoreSum;
+    public int HoursSum;
+    static int? id { get; set; }
+    static string name;
+    static string email;
+    static byte? isAdmin;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        List<User> UserDataSource = await userData.GetUserByIdAsync(mainLayout.id);
+        id = UserDataSource[0].Id;
+        name = UserDataSource[0].Name;
+        email = UserDataSource[0].Email;
+        isAdmin = UserDataSource[0].IsAdmin;
+        CharacterDataSource = await characterData.GetOrdersByUserAsync( (int)id);
+        if (CharacterDataSource.Count > 0)
+        {
+            MaxScoreCharacter = (await characterData.GetOrdersMaxByIdAsync("Score", (int)id))[0];
+            MaxHoursCharacter = (await characterData.GetOrdersMaxByIdAsync("HoursPlayed", (int)id))[0];
+            ScoreSum = 0;
+            HoursSum = 0;
+            foreach (Character row in CharacterDataSource)
+            {
+                ScoreSum += (int)row.Score;
+                HoursSum += (int)row.HoursPlayed;
+            }
+        }
+    }
+
+    public async void MailGrid()
+    {
+        //Console.WriteLine(CharactersGrid.ToString());
+        #region ExcelProperties
+        ExcelExportProperties ExcelProperties = new ExcelExportProperties();
+
+        ExcelHeader header = new ExcelHeader();
+        header.HeaderRows = 2;
+        List<ExcelCell> cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= ("Персонажи пользователя " + PersonalAccount.name), Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman"} }
+
+                };
+        List<ExcelRow> HeaderContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+        header.Rows = HeaderContent;
+
+        ExcelFooter footer = new ExcelFooter();
+        footer.FooterRows = 2;
+        cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= ("Дата и время: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")), Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman" }}
+                };
+        List<ExcelRow> FooterContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+        footer.Rows = FooterContent;
+
+        ExcelProperties.Header = header;
+        ExcelProperties.Footer = footer;
+        ExcelTheme Theme = new ExcelTheme();
+        ExcelStyle ThemeStyle = new ExcelStyle()
+            {
+                FontName = "Times New Roman",
+                FontSize = 12
+            };
+        ExcelStyle HeaderThemeStyle = new ExcelStyle()
+            {
+                FontName = "Times New Roman",
+                FontSize = 14,
+                Bold = true,
+                BackColor = "#bfbfbf"
+            };
+        Theme.Header = HeaderThemeStyle;
+        Theme.Record = ThemeStyle;
+        Theme.Caption = ThemeStyle;
+        ExcelProperties.Theme = Theme;
+        #endregion
+        MemoryStream streamDoc = await CharactersGrid.ExportToExcelAsync(asMemoryStream: true, ExcelProperties);
+        MailAddress From = new MailAddress("lebed.Daniil2005@gmail.com");
+        MailAddress To = new MailAddress(email);
+        MailMessage message = new MailMessage(From, To);
+        message.Subject = "На вашу электронную почту была отправлена таблица персонажей";
+        message.IsBodyHtml = true;
+        message.Body = "<p>Имя пользователя: " + name + "</p>" +
+            "<p>Email пользователя: " + email + "</p>" +
+            "<p>Id пользователя: " + id + "</p>";
+        //System.Net.Mime.ContentType contentType = new System.Net.Mime.ContentType(System.Net.Mime.MediaTypeNames.Application.xls);
+        //Stream stream = new Stream();
+        //streamDoc.WriteTo(stream);
+        MemoryStream memoryStream = new MemoryStream(streamDoc.ToArray());
+        memoryStream.Seek(0, SeekOrigin.Begin);
+        Attachment attachment = new Attachment(memoryStream, name + "CharactersGrid.xlsx");
+        //attachment.ContentDisposition.FileName = name + "CharactersGrid.xml";
+        message.Attachments.Add(attachment);
+        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+        smtp.EnableSsl = true;
+        smtp.UseDefaultCredentials = false;
+        smtp.Credentials = new NetworkCredential("lebed.Daniil2005@gmail.com", "hsvirmyabcqqrmbu");
+        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+        smtp.Send(message);
+        
+        //Console.WriteLine(Convert.ToBase64String(streamDoc.ToArray()));
+        
+    }
+
+	SfGrid<Character> CharactersGrid;
+    private List<string> ToolbarList = new List<string>();
+    public ServerData ServerService = new ServerData();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+        Console.WriteLine(JSModule.Value);
+    }
+
+    public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        Console.WriteLine("exp1");
+        try
+        {
+            Console.WriteLine(args.Item.Id);
+            if (args.Item.Id == "CharactersGrid_excelexport") //Id is combination of Grid's ID and itemname
+            {
+                //await this.PlayersGrid.ExcelExport();
+                Console.WriteLine("exp2");
+
+                #region ExcelProperties
+                ExcelExportProperties ExcelProperties = new ExcelExportProperties();
+
+                ExcelHeader header = new ExcelHeader();
+                header.HeaderRows = 2;
+                List<ExcelCell> cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= ("Персонажи пользователя " + PersonalAccount.name), Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman"} }
+
+                };
+                List<ExcelRow> HeaderContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+                header.Rows = HeaderContent;
+
+                ExcelFooter footer = new ExcelFooter();
+                footer.FooterRows = 2;
+                cell = new List<ExcelCell>
+                {
+                    new ExcelCell() { RowSpan= 2,ColSpan=5 , Value= ("Дата и время: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")), Style = new ExcelStyle() { Bold = true, FontSize = 14, Italic= true, BackColor = "#bfbfbf", FontName = "Times New Roman" }}
+                };
+                List<ExcelRow> FooterContent = new List<ExcelRow>
+                {
+                    new ExcelRow() {  Cells = cell, Index = 1 }
+                };
+                footer.Rows = FooterContent;
+
+                ExcelProperties.Header = header;
+                ExcelProperties.Footer = footer;
+                ExcelTheme Theme = new ExcelTheme();
+                ExcelStyle ThemeStyle = new ExcelStyle()
+                    {
+                        FontName = "Times New Roman",
+                        FontSize = 12
+                    };
+                ExcelStyle HeaderThemeStyle = new ExcelStyle()
+                    {
+                        FontName = "Times New Roman",
+                        FontSize = 14,
+                        Bold = true,
+                        BackColor = "#bfbfbf"
+                    };
+                Theme.Header = HeaderThemeStyle;
+                Theme.Record = ThemeStyle;
+                Theme.Caption = ThemeStyle;
+                ExcelProperties.Theme = Theme;
+                #endregion
+                MemoryStream streamDoc = await CharactersGrid.ExportToExcelAsync(asMemoryStream: true, ExcelProperties);
+
+                await JSModule.Value.InvokeVoidAsync("saveAsFile", new object[] { (PersonalAccount.name + "Characters.xlsx"), Convert.ToBase64String(streamDoc.ToArray()), true });
+
+                Console.WriteLine("exp3");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
+    }
+
+    public class CustomAdaptor : DataAdaptor
+    {
+        public CharacterData CharacterService = new CharacterData();
+
+        public override async Task<object> ReadAsync(DataManagerRequest DataManagerRequest, string Key = null)
+        {
+            Console.WriteLine(1);
+            IEnumerable<Character> DataSource = await CharacterService.GetOrdersByUserAsync((int) id);
+            Console.WriteLine(2);
+            // Handling Searching in CustomAdaptor.
+            if (DataManagerRequest.Search != null && DataManagerRequest.Search.Count > 0)
+            {
+                // Searching
+                DataSource = DataOperations.PerformSearching(DataSource, DataManagerRequest.Search);
+            }
+            // Handling Filtering in CustomAdaptor.
+            if (DataManagerRequest.Where != null && DataManagerRequest.Where.Count > 0)
+            {
+                // Filtering
+                DataSource = DataOperations.PerformFiltering(DataSource, DataManagerRequest.Where, DataManagerRequest.Where[0].Operator);
+            }
+            // Handling Sorting in CustomAdaptor.
+            if (DataManagerRequest.Sorted != null && DataManagerRequest.Sorted.Count > 0)
+            {
+                // Sorting
+                DataSource = DataOperations.PerformSorting(DataSource, DataManagerRequest.Sorted);
+            }
+            int count = DataSource.Cast<Character>().Count();
+            // Handling Aggregates in CustomAdaptor.
+            IDictionary<string, object> Aggregates = null;
+            if (DataManagerRequest.Aggregates != null) // Aggregation
+            {
+                Aggregates = DataUtil.PerformAggregation(DataSource, DataManagerRequest.Aggregates);
+            }
+            // Handling Paging in CustomAdaptor. For example, Skip is 0 and Take is equal to page size for first page.
+            if (DataManagerRequest.Skip != 0)
+            {
+                //Paging
+                DataSource = DataOperations.PerformSkip(DataSource, DataManagerRequest.Skip);
+            }
+            if (DataManagerRequest.Take != 0)
+            {
+                DataSource = DataOperations.PerformTake(DataSource, DataManagerRequest.Take);
+            }
+            // Handling Grouping in CustomAdaptor.
+            DataResult DataObject = new DataResult();
+            if (DataManagerRequest.Group != null)
+            {
+                IEnumerable ResultData = DataSource.ToList();
+                // Grouping
+                foreach (var group in DataManagerRequest.Group)
+                {
+                    ResultData = DataUtil.Group<Character>(ResultData, group, DataManagerRequest.Aggregates, 0, DataManagerRequest.GroupByFormatter);
+                }
+                DataObject.Result = ResultData;
+                DataObject.Count = count;
+                //If both Grouping and Aggregate is enabled
+                if (DataManagerRequest.Aggregates != null)
+                {
+                    DataObject.Aggregates = Aggregates;
+                }
+                //Здесь RequiresCount передается со стороны элемента управления, когда требуется выборка данных по требованию, тогда RequiresCount устанавливается как true на стороне компонента.
+                //В приведенном выше случае мы используем пейджинг, поэтому данные загружаются по требованию каждый раз, когда нажимается следующая страница на стороне Blazor DataGrid.
+                return DataManagerRequest.RequiresCounts ? DataObject : (object)ResultData;
+            }
+            //Здесь RequiresCount передается со стороны элемента управления, когда требуется выборка данных по требованию, тогда RequiresCount устанавливается как true на стороне компонента.
+            //В приведенном выше случае мы используем пейджинг, поэтому данные загружаются по требованию каждый раз, когда нажимается следующая страница на стороне Blazor DataGrid.
+            return DataManagerRequest.RequiresCounts ? new DataResult() { Result = DataSource, Count = count, Aggregates = Aggregates } : (object)DataSource;
+        }
+
+        public override async Task<object> InsertAsync(DataManager DataManager, object Value, string Key)
+        {
+            // Given that the Value property consists of newly inserted record details. It can be used to insert the records into database by calling the predefined logic.
+            await CharacterService.AddOrderAsync(Value as Character);
+            return Value;
+        }
+
+        public override async Task<object> UpdateAsync(DataManager DataManager, object Value, string KeyField, string Key)
+        {
+            // Given that the Value property consists of modified record details. It can be used to update the changes into database by calling the predefined logic.
+            Console.WriteLine("Update" + Value);
+            await CharacterService.UpdateOrderAsync(Value as Character);
+            Console.WriteLine("Updated" + Value);
+            return Value;
+        }
+
+        public override async Task<object> RemoveAsync(DataManager DataManager, object Value, string KeyField, string Key)
+        {
+            // Given that the key column is identified nullable interger type in the DataGrid, the primaryColumnValue can be utilized from Value property directly.
+            Console.WriteLine("Remove" + Value);
+            await CharacterService.RemoveOrderAsync(Value as int?);
+            Console.WriteLine("Removed" + Value);
+            return Value;
+        }
+
+        public override async Task<object> BatchUpdateAsync(DataManager DataManager, object Changed, object Added, object Deleted, string KeyField, string Key, int? DropIndex)
+        {
+            if (Changed != null)
+            {
+                foreach (var record in (IEnumerable<Character>)Changed)
+                {
+                    await CharacterService.UpdateOrderAsync(record as Character);
+                }
+            }
+            if (Added != null)
+            {
+                foreach (var record in (IEnumerable<Character>)Added)
+                {
+                    await CharacterService.AddOrderAsync(record as Character);
+                }
+            }
+            if (Deleted != null)
+            {
+                foreach (var record in (IEnumerable<Character>)Deleted)
+                {
+                    await CharacterService.RemoveOrderAsync((record as Character).Id);
+                }
+            }
+            return Key;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Главная</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Главная
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="ServerGrid">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Таблица Серверов
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="CharacterGrid">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Таблица Персонажей
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="ClassGrid">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Таблица Классов
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="EnemyGrid">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Таблица Противников
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="EnemyTypeGrid">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Таблица Типов Противников
+            </NavLink>
+        </div>
+
+        @if (mainLayout.IsAdmin)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="UserGrid">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Таблица Пользователей
+                </NavLink>
+            </div>
+        }
+        
+    </nav>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public MainLayout mainLayout { get; set; }
+}
+

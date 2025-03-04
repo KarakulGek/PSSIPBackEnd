@@ -1,0 +1,83 @@
+﻿@rendermode InteractiveServer
+
+@inherits LayoutComponentBase
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor
+@using Grid_Dapper.Data;
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavManager
+
+<div class="page">
+    <CascadingValue Value="this">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <main>
+            <div class="top-row px-4">
+                <a href="Authorization">Вход</a>
+                <a href="Registration">Регистрация</a>
+                @if (!isGuest)
+                {
+                    <a href="PersonalAccount">Личный кабинет: @name</a>
+                    <button @onclick="ExitAccount" style="padding: 3pt; margin: 3pt; color: firebrick; border-color: firebrick; background-color:darksalmon">Выйти из аккаунта</button>
+                }
+            </div>
+
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </CascadingValue>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code
+{
+    private Lazy<IJSObjectReference> JSModule = new();
+    private bool isGuest;
+    private string userId = "";
+    public string name;
+    public int id;
+    public bool IsAdmin = false;
+    public UserData userData = new UserData();
+    public bool IsUserNeedRefreshing;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) IsUserNeedRefreshing = true;
+        if (IsUserNeedRefreshing)
+        {
+            Console.WriteLine("after render started");
+            JSModule = new(await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JSRuntime.js"));
+            userId = await JSModule.Value.InvokeAsync<string>("getCookieValue", "UserId");
+            if (userId != null)
+            {
+                List<User> DataSource = await userData.GetUserByIdAsync(int.Parse(userId));
+                name = DataSource[0].Name;
+                id = (int) DataSource[0].Id;
+                IsAdmin = DataSource[0].IsAdmin == 1 ? true : false;
+                isGuest = false;
+            }
+            else isGuest = true;
+
+            Console.WriteLine("after render finished, name = " + name + ", UserId = " + userId);
+            IsUserNeedRefreshing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async void ExitAccount()
+    {
+        Console.WriteLine("deleting cookie");
+        await JSModule.Value.InvokeVoidAsync("removeCookie","UserId");
+        NavManager.NavigateTo("/", true);
+    }
+
+}
