@@ -1,0 +1,187 @@
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\appsettings.json
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\BlazorApp1.staticwebassets.runtime.json
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\BlazorApp1.exe
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\BlazorApp1.deps.json
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\BlazorApp1.runtimeconfig.json
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\BlazorApp1.dll
+C:\Users\USERR\Desktop\BlazorApp1\bin\Debug\net8.0\BlazorApp1.pdb
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.AssemblyInfoInputs.cache
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.AssemblyInfo.cs
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.CoreCompileInputs.cache
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.BlazorApp1.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.build.BlazorApp1.props
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.BlazorApp1.props
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.BlazorApp1.props
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\scopedcss\bundle\BlazorApp1.styles.css
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\scopedcss\projectbundle\BlazorApp1.bundle.scp.css
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.dll
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\refint\BlazorApp1.dll
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.pdb
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\BlazorApp1.genruntimeconfig.cache
+C:\Users\USERR\Desktop\BlazorApp1\obj\Debug\net8.0\ref\BlazorApp1.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\appsettings.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BlazorApp1.staticwebassets.runtime.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BlazorApp1.exe
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BlazorApp1.deps.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BlazorApp1.runtimeconfig.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BlazorApp1.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BlazorApp1.pdb
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Dapper.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Google.Protobuf.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\K4os.Compression.LZ4.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\K4os.Compression.LZ4.Streams.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\K4os.Hash.xxHash.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\MySql.Data.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\comerr64.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\gssapi64.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\k5sprt64.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\krb5_64.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\krbcc64.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.AssemblyReference.cache
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.AssemblyInfoInputs.cache
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.AssemblyInfo.cs
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.CoreCompileInputs.cache
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.BlazorApp1.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.build.BlazorApp1.props
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.BlazorApp1.props
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.BlazorApp1.props
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\scopedcss\bundle\BlazorApp1.styles.css
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\scopedcss\projectbundle\BlazorApp1.bundle.scp.css
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.Up2Date
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\refint\BlazorApp1.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.pdb
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\BlazorApp1.genruntimeconfig.cache
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\obj\Debug\net8.0\ref\BlazorApp1.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Components.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Microsoft.JSInterop.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Buttons.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Calendars.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Core.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Data.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.DropDowns.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Grids.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Inputs.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Lists.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Navigations.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Notifications.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Popups.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Spinner.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.SplitButtons.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Themes.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.ExcelExport.Net.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.Licensing.dll
+C:\Users\USERR\Documents\ПЗТ-38\4 курс\BlazorApp1\bin\Debug\net8.0\Syncfusion.PdfExport.Net.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\appsettings.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.staticwebassets.runtime.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.staticwebassets.endpoints.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.exe
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.deps.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.runtimeconfig.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BlazorApp1.pdb
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Dapper.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Google.Protobuf.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\K4os.Compression.LZ4.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\K4os.Compression.LZ4.Streams.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\K4os.Hash.xxHash.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Components.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Microsoft.JSInterop.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\MySql.Data.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Buttons.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Calendars.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Core.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Data.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.DropDowns.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Grids.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Inputs.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Lists.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Navigations.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Notifications.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Popups.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Spinner.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.SplitButtons.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Blazor.Themes.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.ExcelExport.Net.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.Licensing.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Syncfusion.PdfExport.Net.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\comerr64.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\gssapi64.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\k5sprt64.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\krb5_64.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\runtimes\win-x64\native\krbcc64.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.AssemblyReference.cache
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.AssemblyInfoInputs.cache
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.AssemblyInfo.cs
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.CoreCompileInputs.cache
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\scopedcss\bundle\BlazorApp1.styles.css
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\scopedcss\projectbundle\BlazorApp1.bundle.scp.css
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.BlazorApp1.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.BlazorApp1.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.build.BlazorApp1.props
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.BlazorApp1.props
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.BlazorApp1.props
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.csproj.Up2Date
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\refint\BlazorApp1.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.pdb
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\BlazorApp1.genruntimeconfig.cache
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\obj\Debug\net8.0\ref\BlazorApp1.dll
+C:\Users\Даниил\Desktop\Лаб\Базы данных\BlazorApp1\bin\Debug\net8.0\Blazored.LocalStorage.dll
